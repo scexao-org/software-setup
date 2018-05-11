@@ -5,6 +5,8 @@ Raptor Photonics OWL cameras (InGaAs), 320x256 pix
 EPIX frame grabber.
 
 
+---
+---
 
 
 
@@ -110,20 +112,21 @@ You now get the simultaneous display for both cameras
 
 
 
-
+---
+---
 
 
 # LOAD KERNEL MODULES
 
 Series of commands to execute with super user prileges:
 
-	sudo insmod /usr/local/xcap/drivers/x86_64/3.11.0-26-generic/pixci_x86_64.ko PIXCIPARM=-DM_3
+	sudo insmod /usr/local/xcap/drivers/x86_64/3.13.0-144-generic/pixci_x86_64.ko PIXCIPARM=-DM_3
 	sudo rm -f /dev/pixci
 	sudo mknod /dev/pixci c $(cat /proc/devices | grep PIXCI\(R\) | awk '{print $1}') 0
 	sudo chmod 666 /dev/pixci
 
-Notes: "-DM 3" loads the two cameras.
-Note: replace "3.11.0-26-generic" by the adequate kernel name,
+Notes: "-DM 3" loads the two cameras, "-DM 1" loads cam#1, "-DM 2" loads cam#2.
+Note: replace "3.13.0-144-generic" by the adequate kernel name,
 
 
 
