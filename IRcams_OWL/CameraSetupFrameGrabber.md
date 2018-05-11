@@ -139,6 +139,8 @@ Note: replace "3.13.0-144-generic" by the adequate kernel name,
 
 # Spectre Attack related issue (currently unsolved)
 
+## Description
+
 The kernel module does not install.
 
 Running command:
@@ -154,7 +156,7 @@ dmseg command reports:
 	pixci: version magic '3.13.0-144-generic SMP mod_unload modversions ' should be '3.13.0-144-generic SMP mod_unload modversions retpoline
 
 
-Inspecting kernel module confirms it expects non-retpoline kernel. Command :
+Inspecting kernel module confirms it expects non-retpoline kernel vermagic. Command :
 
 	/sbin/modinfo pixci_x86_64.ko
 
@@ -167,5 +169,24 @@ Returns:
 	depends:        
 	vermagic:       3.13.0-144-generic SMP mod_unload modversions 
 	parm:           PIXCIPARM:charp
+
+Verifying kernel retpoline. Running command:
+
+	cat /sys/devices/system/cpu/vulnerabilities/spectre_v2
+
+Returns:
+
+	Mitigation: Full generic retpoline
+
+
+## Trying to force module loading	
+
+Command:
+
+	sudo modprobe --force pixci_x86_64
+
+Returns:
+
+	modprobe: ERROR: could not insert 'pixci_x86_64': Exec format error
 
 
