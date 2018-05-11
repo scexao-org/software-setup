@@ -134,4 +134,20 @@ Note: replace "3.13.0-144-generic" by the adequate kernel name,
 	sudo depmod -a
 
 
+---
+---
+
+# Spectre Attack related issue (currently unsolved)
+
+The kernel module does not install.
+
+Running command:
+	sudo insmod /usr/local/xcap/drivers/x86_64/3.13.0-144-generic/pixci_x86_64.ko PIXCIPARM=-DM_1
+returns:
+	insmod: ERROR: could not insert module /usr/local/xcap/drivers/x86_64/3.13.0-144-generic/pixci_x86_64.ko: Invalid module format
+dmseg command reports:
+	pixci: version magic '3.13.0-144-generic SMP mod_unload modversions ' should be '3.13.0-144-generic SMP mod_unload modversions retpoline
+
+
+
 
