@@ -142,16 +142,24 @@ Note: replace "3.13.0-144-generic" by the adequate kernel name,
 The kernel module does not install.
 
 Running command:
+
 	sudo insmod /usr/local/xcap/drivers/x86_64/3.13.0-144-generic/pixci_x86_64.ko PIXCIPARM=-DM_1
+
 returns:
+
 	insmod: ERROR: could not insert module /usr/local/xcap/drivers/x86_64/3.13.0-144-generic/pixci_x86_64.ko: Invalid module format
+
 dmseg command reports:
+
 	pixci: version magic '3.13.0-144-generic SMP mod_unload modversions ' should be '3.13.0-144-generic SMP mod_unload modversions retpoline
 
 
 Inspecting kernel module confirms it expects non-retpoline kernel. Command :
+
 	/sbin/modinfo pixci_x86_64.ko
+
 Returns:
+
 	filename:       /usr/local/xcap/drivers/x86_64/3.13.0-144-generic/pixci_x86_64.ko
 	license:        Proprietary
 	description:    PIXCI(R) 32 Bit Driver. 3.8.00 [14.07.24.172802]. Copyright� 2013 EPIX, Inc.
