@@ -179,14 +179,41 @@ Returns:
 	Mitigation: Full generic retpoline
 
 
-## Trying to force module loading	
+## Trying to force module loading (failed)
 
 Command:
 
+	sudo cp pixci_x86_64.ko /lib/modules/3.13.0-144-generic/
+	sudo depmod -a
 	sudo modprobe --force pixci_x86_64
 
 Returns:
 
 	modprobe: ERROR: could not insert 'pixci_x86_64': Exec format error
 
+
+## Editing Kernel headers
+
+Edit kernel header file:
+
+	vim /usr/src/linux-headers-3.13.0-144/include/linux/vermagic.h
+
+Change :
+
+	#ifdef RETPOLINE
+	#define MODULE_VERMAGIC_RETPOLINE "retpoline "
+	#else
+	#define MODULE_VERMAGIC_RETPOLINE ""
+	#endif
+
+To: 
+
+	/* #ifdef RETPOLINE */
+	#if 1
+	#define MODULE_VERMAGIC_RETPOLINE "retpoline "
+	#else
+	#define MODULE_VERMAGIC_RETPOLINE ""
+	#endif
+
+Then reboot computer.
 
