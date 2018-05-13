@@ -242,6 +242,8 @@ A false sense of security is worse than no security at all, see --disclaimer
 
 
 
+
+
 ## Trying to force module loading (failed)
 
 Command:
@@ -255,7 +257,7 @@ Returns:
 	modprobe: ERROR: could not insert 'pixci_x86_64': Exec format error
 
 
-## Editing Kernel headers
+## Editing Kernel headers (no effect)
 
 Edit kernel header file:
 
@@ -279,4 +281,31 @@ To:
 	#endif
 
 Then reboot computer.
+
+
+
+## Checking gcc version used to compile Kernel (fixed issue)
+
+Command:
+	
+	cat /prov/version
+
+Returns:
+
+	Linux version 3.13.0-144-generic (buildd@lgw01-amd64-059) (gcc version 4.8.4 (Ubuntu 4.8.4-2ubuntu1~14.04.4) ) #193-Ubuntu SMP Thu Mar 15 17:03:53 UTC 2018
+
+Noticed that default gcc version is older, returned by gcc -v:
+
+	gcc version 4.8.4 (Ubuntu 4.8.4-2ubuntu1~14.04.3) 
+	
+So reinstalling gcc:
+
+	sudo apt-get install --reinstall gcc-4.8
+
+
+## Conclusion
+
+On March 15 2018, automatic kernel update added the retpoline kernel feature against the meltdown/spectre attack. The gcc compiler was not automatically updated and the default gcc version did not have the retpoline feature.
+
+xcap uses default gcc to create kernel module, and then tried to load it. Loading failed because of retpoline mismatch. Replacing gcc with retpoline-enabled gcc package fixed the issue.
 
