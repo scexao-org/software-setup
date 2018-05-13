@@ -178,6 +178,69 @@ Returns:
 
 	Mitigation: Full generic retpoline
 
+Output of Spectre and Meltdown mitigation detection script:
+
+```
+Spectre and Meltdown mitigation detection tool v0.37+
+
+Checking for vulnerabilities on current system
+Kernel is Linux 3.13.0-144-generic #193-Ubuntu SMP Thu Mar 15 17:03:53 UTC 2018 x86_64
+CPU is Intel(R) Xeon(R) CPU E5-2690 v2 @ 3.00GHz
+
+Hardware check
+* Hardware support (CPU microcode) for mitigation techniques
+	* Indirect Branch Restricted Speculation (IBRS)
+    * SPEC_CTRL MSR is available:  NO 
+    * CPU indicates IBRS capability:  NO 
+  * Indirect Branch Prediction Barrier (IBPB)
+    * PRED_CMD MSR is available:  NO 
+    * CPU indicates IBPB capability:  NO 
+  * Single Thread Indirect Branch Predictors (STIBP)
+    * SPEC_CTRL MSR is available:  NO 
+    * CPU indicates STIBP capability:  NO 
+  * Enhanced IBRS (IBRS_ALL)
+    * CPU indicates ARCH_CAPABILITIES MSR availability:  NO 
+    * ARCH_CAPABILITIES MSR advertises IBRS_ALL capability:  NO 
+  * CPU explicitly indicates not being vulnerable to Meltdown (RDCL_NO):  NO 
+  * CPU microcode is known to cause stability problems:  NO  (model 62 stepping 4 ucode 0x427 cpuid 0x306e4)
+* CPU vulnerability to the three speculative execution attack variants
+  * Vulnerable to Variant 1:  YES 
+  * Vulnerable to Variant 2:  YES 
+  * Vulnerable to Variant 3:  YES 
+
+CVE-2017-5753 [bounds check bypass] aka 'Spectre Variant 1'
+* Mitigated according to the /sys interface:  YES  (Mitigation: OSB (observable speculation barrier, Intel v6))
+* Kernel has array_index_mask_nospec (x86):  NO 
+* Kernel has the Red Hat/Ubuntu patch:  YES 
+* Kernel has mask_nospec64 (arm):  NO 
+> STATUS:  NOT VULNERABLE  (Mitigation: OSB (observable speculation barrier, Intel v6))
+
+CVE-2017-5715 [branch target injection] aka 'Spectre Variant 2'
+* Mitigated according to the /sys interface:  YES  (Mitigation: Full generic retpoline)
+* Mitigation 1
+  * Kernel is compiled with IBRS support:  YES 
+    * IBRS enabled and active:  NO 
+  * Kernel is compiled with IBPB support:  YES 
+    * IBPB enabled and active:  NO 
+* Mitigation 2
+  * Kernel has branch predictor hardening (arm):  NO 
+  * Kernel compiled with retpoline option:  YES 
+    * Kernel compiled with a retpoline-aware compiler:  YES  (kernel reports full retpoline compilation)
+> STATUS:  NOT VULNERABLE  (Full retpoline is mitigating the vulnerability)
+IBPB is considered as a good addition to retpoline for Variant 2 mitigation, but your CPU microcode doesn't support it
+
+CVE-2017-5754 [rogue data cache load] aka 'Meltdown' aka 'Variant 3'
+* Mitigated according to the /sys interface:  YES  (Mitigation: PTI)
+* Kernel supports Page Table Isolation (PTI):  YES 
+  * PTI enabled and active:  UNKNOWN  (dmesg truncated, please reboot and relaunch this script)
+  * Reduced performance impact of PTI:  YES  (CPU supports PCID, performance impact of PTI will be reduced)
+* Running as a Xen PV DomU:  NO 
+> STATUS:  NOT VULNERABLE  (Mitigation: PTI)
+
+A false sense of security is worse than no security at all, see --disclaimer
+```
+
+
 
 ## Trying to force module loading (failed)
 
